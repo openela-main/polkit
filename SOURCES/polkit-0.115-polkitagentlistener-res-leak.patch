@@ -1,0 +1,11 @@
+diff -up ./src/polkitagent/polkitagentlistener.c.ori ./src/polkitagent/polkitagentlistener.c
+--- ./src/polkitagent/polkitagentlistener.c.ori	2018-08-10 14:58:58.555475169 +0200
++++ ./src/polkitagent/polkitagentlistener.c	2018-08-10 14:59:15.900396570 +0200
+@@ -439,6 +439,7 @@ polkit_agent_listener_register_with_opti
+           server->thread_initialization_error = NULL;
+           g_thread_join (server->thread);
+           server_free (server);
++          server = NULL;
+           goto out;
+         }
+     }
