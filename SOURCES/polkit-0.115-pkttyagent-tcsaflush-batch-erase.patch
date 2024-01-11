@@ -1,0 +1,12 @@
+diff -up ./src/programs/pkttyagent.c.ori ./src/programs/pkttyagent.c
+--- ./src/programs/pkttyagent.c.ori	2019-09-27 14:14:35.096310576 +0200
++++ ./src/programs/pkttyagent.c	2019-09-27 14:14:56.988586737 +0200
+@@ -55,7 +55,7 @@ static void tty_handler(int signal)
+ 
+   if (tty_flags_saved)
+   {
+-    tcsetattr (fileno (tty), TCSAFLUSH, &ts);
++    tcsetattr (fileno (tty), TCSADRAIN, &ts);
+   }
+ 
+   kill(getpid(), signal);

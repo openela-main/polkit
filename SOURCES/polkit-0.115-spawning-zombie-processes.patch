@@ -1,0 +1,13 @@
+diff -up ./src/polkitbackend/polkitbackendjsauthority.cpp.ori ./src/polkitbackend/polkitbackendjsauthority.cpp
+--- ./src/polkitbackend/polkitbackendjsauthority.cpp.ori	2018-04-03 22:57:57.000000000 +0200
++++ ./src/polkitbackend/polkitbackendjsauthority.cpp	2018-08-14 16:47:48.416993302 +0200
+@@ -1595,7 +1595,8 @@ utils_spawn_data_free (UtilsSpawnData *d
+                              (GSourceFunc) utils_child_watch_from_release_cb,
+                              source,
+                              (GDestroyNotify) g_source_destroy);
+-      g_source_attach (source, data->main_context);
++      /* attach source to the global default main context */
++      g_source_attach (source, NULL);
+       g_source_unref (source);
+       data->child_pid = 0;
+     }
