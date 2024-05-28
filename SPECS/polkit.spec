@@ -6,7 +6,7 @@
 Summary: An authorization framework
 Name: polkit
 Version: 0.115
-Release: 15%{?dist}
+Release: 15%{?dist}.2
 License: LGPLv2+
 URL: http://www.freedesktop.org/wiki/Software/polkit
 Source0: http://www.freedesktop.org/software/polkit/releases/%{name}-%{version}.tar.gz
@@ -29,6 +29,8 @@ Patch12: polkit-0.115-CVE-2021-3560.patch
 Patch13: polkit-0.115-CVE-2021-4034.patch
 Patch14: polkit-0.115-CVE-2021-4115.patch
 Patch15: polkit-0.115-tty-flags-restore-if-changed.patch
+Patch16: polkit-0.115-session-monitor-watch-sessions-only.patch
+Patch17: polkit-0.115-pkperm-watch-real-ssn-changes.patch
 
 
 BuildRequires: gcc-c++
@@ -48,7 +50,8 @@ BuildRequires: automake
 BuildRequires: libtool
 %endif
 
-Requires: dbus, polkit-pkla-compat
+Requires: dbus
+Recommends: polkit-pkla-compat
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 
 Requires(pre): shadow-utils
@@ -194,6 +197,15 @@ exit 0
 %{_libdir}/girepository-1.0/*.typelib
 
 %changelog
+* Mon May 20 2024 Jan Rybar <jrybar@redhat.com> - 0.115-15.2
+- PolkitPermission re-check on real session changes
+- Resolves: RHEL-34029
+
+* Mon Apr 22 2024 Jan Rybar <jrybar@redhat.com> - 0.115-15.1
+- reduce waking session monitor on uninteresting session changes
+- make polkit-pkla-compat uninstallable (for cases when no .pkla on system)
+- Resolves: RHEL-34029
+
 * Tue Nov 08 2022 Jan Rybar <jrybar@redhat.com> - 0.115-15
 - pkttyagent gets stopped if killed in the background
 - Resolves: rhbz#2128989
