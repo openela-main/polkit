@@ -22,7 +22,7 @@
 Summary: An authorization framework
 Name: polkit
 Version: 0.117
-Release: 13%{?dist}
+Release: 14%{?dist}
 License: LGPLv2+
 URL: http://www.freedesktop.org/wiki/Software/polkit
 Source0: http://www.freedesktop.org/software/polkit/releases/%{name}-%{version}.tar.gz
@@ -237,6 +237,12 @@ pushd firefox-%{mozjs_version}/js/src
 export CC=gcc
 export CXX=g++
 
+# outline atomic helpers (-foutline-atomic) enabled by default in libgcc, but linked improperly
+%ifarch aarch64
+export CFLAGS="%{optflags} -mno-outline-atomics"
+export CXXFLAGS="%{optflags} -mno-outline-atomics"
+%endif
+
 # Workaround
 # error: options `-C embed-bitcode=no` and `-C lto` are incompatible
 # error: could not compile `jsrust`.
@@ -394,6 +400,10 @@ exit 0
 %endif
 
 %changelog
+* Tue Aug 05 2025 Jan Rybar <jrybar@redhat.com> - 0.117-14
+- aarch64: test failure with undefined symbol: __aarch64_ldadd4_acq_rel
+- Resolves: RHEL-98662
+
 * Tue May 28 2024 Jan Rybar <jrybar@redhat.com> - 0.117-13
 - session-monitor: watch sessions only
 - PolkitPermission: react on really changed sessions
