@@ -4,13 +4,14 @@
 Summary: An authorization framework
 Name: polkit
 Version: 125
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: LGPL-2.0-or-later
 URL: https://github.com/polkit-org/polkit
 Source0: https://github.com/polkit-org/polkit/archive/refs/tags/%{version}.tar.gz
 Source1: polkit.sysusers
 
 Patch1: pthread_condattr_loglevel.patch
+Patch2: loglevel_property_root_only.patch
 
 BuildRequires: gcc-c++
 BuildRequires: glib2-devel >= 2.30.0
@@ -163,6 +164,11 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_libdir}/girepository-1.0/*.typelib
 
 %changelog
+* Tue Aug 12 2025 Jan Rybar <jrybar@redhat.com> - 125-4
+- changing log level via dbus is now restricted to root
+- backport of https://github.com/polkit-org/polkit/commit/5a4ba7dfdcc3f
+- Resolves: RHEL-90807
+
 * Tue Oct 29 2024 Troy Dawson <tdawson@redhat.com> - 125-3
 - Bump release for October 2024 mass rebuild:
   Resolves: RHEL-64018
