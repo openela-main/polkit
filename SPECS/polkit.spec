@@ -4,7 +4,7 @@
 Summary: An authorization framework
 Name: polkit
 Version: 125
-Release: 4%{?dist}
+Release: 4%{?dist}.1
 License: LGPL-2.0-or-later
 URL: https://github.com/polkit-org/polkit
 Source0: https://github.com/polkit-org/polkit/archive/refs/tags/%{version}.tar.gz
@@ -12,6 +12,10 @@ Source1: polkit.sysusers
 
 Patch1: pthread_condattr_loglevel.patch
 Patch2: loglevel_property_root_only.patch
+# https://issues.redhat.com/browse/RHEL-218025
+# https://github.com/polkit-org/polkit/commit/7e122c8a5120c2aae2d9d44a26796dc18f5b677c
+# https://github.com/polkit-org/polkit/commit/39601309eb3e5e88a1c1fbda9a272ba8691f1bf3
+Patch3: polkit-125-CVE-2026-4897.patch
 
 BuildRequires: gcc-c++
 BuildRequires: glib2-devel >= 2.30.0
@@ -164,10 +168,16 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_libdir}/girepository-1.0/*.typelib
 
 %changelog
+* Wed Jul 29 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 125-4.1
+- NOTICE (jrybar): the record 125-4 below was added in manually after Ymir's initial
+- commit 125-3.1. For some reason, 125-3.1 for rhel-10.2 was based on contents
+- of rhel-10.0 release instead of version 125-4 present in rhel-10.1.
+- Fix CVE-2026-4897: string overflow in polkit agent helper
+  Resolves: RHEL-218025
+
 * Tue Aug 12 2025 Jan Rybar <jrybar@redhat.com> - 125-4
 - changing log level via dbus is now restricted to root
 - backport of https://github.com/polkit-org/polkit/commit/5a4ba7dfdcc3f
-- Resolves: RHEL-90807
 
 * Tue Oct 29 2024 Troy Dawson <tdawson@redhat.com> - 125-3
 - Bump release for October 2024 mass rebuild:
