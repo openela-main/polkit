@@ -6,7 +6,7 @@
 Summary: An authorization framework
 Name: polkit
 Version: 0.115
-Release: 15%{?dist}.2
+Release: 15%{?dist}.3
 License: LGPLv2+
 URL: http://www.freedesktop.org/wiki/Software/polkit
 Source0: http://www.freedesktop.org/software/polkit/releases/%{name}-%{version}.tar.gz
@@ -31,6 +31,7 @@ Patch14: polkit-0.115-CVE-2021-4115.patch
 Patch15: polkit-0.115-tty-flags-restore-if-changed.patch
 Patch16: polkit-0.115-session-monitor-watch-sessions-only.patch
 Patch17: polkit-0.115-pkperm-watch-real-ssn-changes.patch
+Patch18: polkit-0.115-state-data-memleak.patch
 
 
 BuildRequires: gcc-c++
@@ -197,6 +198,10 @@ exit 0
 %{_libdir}/girepository-1.0/*.typelib
 
 %changelog
+* Tue Jul 07 2026 Siteshwar Vashisht <svashisht@redhat.com> - 0.115-15.3
+- Fix a memory leak in session state changes
+- Resolves: RHEL-187078
+
 * Mon May 20 2024 Jan Rybar <jrybar@redhat.com> - 0.115-15.2
 - PolkitPermission re-check on real session changes
 - Resolves: RHEL-34029
