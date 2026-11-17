@@ -22,7 +22,7 @@
 Summary: An authorization framework
 Name: polkit
 Version: 0.117
-Release: 14%{?dist}
+Release: 16%{?dist}
 License: LGPLv2+
 URL: http://www.freedesktop.org/wiki/Software/polkit
 Source0: http://www.freedesktop.org/software/polkit/releases/%{name}-%{version}.tar.gz
@@ -36,6 +36,7 @@ Patch1005: tty-restore-flags-if-changed.patch
 Patch1006: pkttyagent-coredump-after-eof.patch
 Patch1007: session-monitor-watch-sessions-only.patch
 Patch1008: pkpermission-watch-changed-ssn-only.patch
+Patch1009: cve-2026-4897-getline-overflow.patch
 
 %if 0%{?bundled_mozjs}
 Source2: https://ftp.mozilla.org/pub/firefox/releases/%{mozjs_version}esr/source/firefox-%{mozjs_version}esr.source.tar.xz
@@ -188,6 +189,7 @@ Libraries files for polkit.
 %patch1006 -p1
 %patch1007 -p1
 %patch1008 -p1
+%patch1009 -p1
 
 %if 0%{?bundled_mozjs}
 # Extract mozjs archive
@@ -400,6 +402,14 @@ exit 0
 %endif
 
 %changelog
+* Wed May 13 2026 Jan Rybar <jrybar@redhat.com> - 0.117-16
+- fix DoS issue introduced by previous fix
+- Resolves: CVE-2026-4897
+
+* Tue May 12 2026 Jan Rybar <jrybar@redhat.com> - 0.117-15
+- CVE-2026-4897: getline() string overflow via unsanitized input
+- Resolves: CVE-2026-4897
+
 * Tue Aug 05 2025 Jan Rybar <jrybar@redhat.com> - 0.117-14
 - aarch64: test failure with undefined symbol: __aarch64_ldadd4_acq_rel
 - Resolves: RHEL-98662
